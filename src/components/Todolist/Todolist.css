@@ -3,6 +3,39 @@
     margin-top: 10px;
 }
 
+.weather {
+    text-align: right;
+}
+
 .todolist_wrap{
     height: 100%;
+}
+
+.weather > span{
+    margin-right: 5px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+span.weather_icon > img{
+    vertical-align: middle;
+}
+
+.navber_wrap a {
+    text-decoration: none;
+}
+
+.navber_wrap {
+    border: 2px solid black;
+}
+
+.todo_list_body {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+}
+
+.todolist_wrap {
+    position: relative;
 }
