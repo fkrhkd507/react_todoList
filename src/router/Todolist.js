@@ -9,11 +9,13 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import TextField from '@mui/material/TextField';
+import List from "../components/Todolist/List";
 
 function Todolist(){
     let [weather, change_weather] = useState(0);
     let [weather_icon, change_weather_icon] = useState();
     let [weather_description, change_weather_description] = useState();
+    let [todolist, change_todolist] = useState([]);
 
     function Show_weather(){
         if(!navigator.geolocation){
@@ -57,6 +59,32 @@ function Todolist(){
         Show_weather();
     }, [weather]);
 
+    useEffect(() => {
+        Get_todolist();
+    }, []);
+
+
+    function add_todolist(e){
+        if(!e.target.value || e.keyCode != 13){
+            return;
+        }
+
+        let add_text = e.target.value;
+        console.log(todolist);
+        return change_todolist(
+            (todolist) => { return [...todolist, {key : 0, todo : add_text}] }
+        );
+    }
+
+    function Get_todolist(){
+        let list = localStorage.getItem("json_todolist");
+        if(!list){
+            return [];
+        }
+
+        change_todolist(list);
+    }
+
     return(
         <div className="wrap">
             <div className="todolist_wrap">
@@ -88,14 +116,18 @@ function Todolist(){
                         noValidate
                         autoComplete="off"
                         >
-                            <TextField id="standard-basic" label="What's the to do?" variant="standard" />
+                            <TextField id="standard-basic" label="What's the to do?" variant="standard" onKeyDown={add_todolist} />
                         </Box>
                     </div> 
                     
                     <div className="list_wrap">
                         <ul className="todo_list">
-                            <li>Kill'em with the bass</li>
-                            <li>Dead beats Listen up</li>
+                            {todolist ?
+                            todolist.map((element) => {
+                                <List key = {element.key} text = {element.text}/>
+                            })
+                            : ''
+                            }
                         </ul>
                     </div>
                 </div>
